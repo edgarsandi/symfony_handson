@@ -10,4 +10,9 @@ class CatalogController extends Controller
     {
         return $this->render('MerciCatalogBundle:Catalog:index.html.twig');
     }
+
+    public function productAction()
+    {
+        return $this->render('MerciCatalogBundle:Catalog:product.html.twig');
+    }
 }
