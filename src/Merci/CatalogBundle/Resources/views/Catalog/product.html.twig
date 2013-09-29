@@ -1,13 +1,13 @@
-{% extends '::base.html.twig' %}
+{% extends 'MerciCatalogBundle::layout.html.twig' %}
+
 {% block title %}
 	Produto{{ parent() }}
 {% endblock %}
 
-{% block body %}
-	<h1>Nome do Produto</h1>
-
+{% block content %}
 	<div class="row">
 		<div class="media col-md-9">
+		  <h2>Nome do Produto</h2>
 		  <div class="pull-left thumbnail">
 	        <img class="media-object" src="{{ asset('bundles/mercicatalog/images/fem-oculos-3.jpg') }}" alt="Nome do Produto">
 	      </div>
