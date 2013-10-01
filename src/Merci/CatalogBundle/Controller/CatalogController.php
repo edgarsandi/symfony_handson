@@ -8,11 +8,33 @@ class CatalogController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('MerciCatalogBundle:Catalog:index.html.twig');
+        $products = $this->getDoctrine()
+            ->getRepository('MerciCatalogBundle:Product')
+            ->findAll();
+
+        if (empty($products)) {
+            throw $this->createNotFoundException('No products avaiable');
+        }
+
+        return $this->render(
+            'MerciCatalogBundle:Catalog:index.html.twig',
+            array('products' => $products)
+        );
     }
 
-    public function productAction()
+    public function productAction($id)
     {
-        return $this->render('MerciCatalogBundle:Catalog:product.html.twig');
+        $product = $this->getDoctrine()
+            ->getRepository('MerciCatalogBundle:Product')
+            ->findOneById($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException('No product found with id: ' . $id);
+        }
+
+        return $this->render(
+            'MerciCatalogBundle:Catalog:product.html.twig',
+            array('product' => $product)
+        );
     }
 }
