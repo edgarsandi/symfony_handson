@@ -16,8 +16,7 @@ class CatalogController extends Controller
             throw $this->createNotFoundException('No products avaiable');
         }
 
-        return $this->render(
-            'MerciCatalogBundle:Catalog:index.html.twig',
+        return $this->render('MerciCatalogBundle:Default:index.html.twig',
             array('products' => $products)
         );
     }
@@ -32,9 +31,34 @@ class CatalogController extends Controller
             throw $this->createNotFoundException('No product found with id: ' . $id);
         }
 
-        return $this->render(
-            'MerciCatalogBundle:Catalog:product.html.twig',
+        return $this->render('MerciCatalogBundle:Default:product.html.twig',
             array('product' => $product)
+        );
+    }
+
+    public function searchAction()
+    {
+        $request = $this->getRequest();
+        $find = $request->query->get('find');
+
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('
+            SELECT p
+            FROM MerciCatalogBundle:Product p
+            WHERE p.name LIKE :find
+        ')->setParameter('find', '%'.$find.'%');
+
+        $products = $query->getResult();
+
+        if (empty($products)) {
+            $this->get('session')->getFlashBag()->add(
+                'notice', 'Nenhum resultado encontrado para pesquisa: '.$find
+            );
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+
+        return $this->render('MerciCatalogBundle:Default:index.html.twig',
+            array('products' => $products, 'find' => $find)
         );
     }
 }
