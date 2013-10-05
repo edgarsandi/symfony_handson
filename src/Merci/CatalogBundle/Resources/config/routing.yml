@@ -5,6 +5,8 @@ homepage:
 product:
     pattern:  /product/{id}
     defaults: { _controller: MerciCatalogBundle:Catalog:product }
+    requirements:
+        id:  \d+
 
 search:
     pattern:  /search
