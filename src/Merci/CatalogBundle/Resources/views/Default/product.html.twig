@@ -9,7 +9,7 @@
         <div class="media col-md-9">
           <h2>{{ product.name }}</h2>
           <div class="pull-left thumbnail">
-            <img class="media-object" src="{{ asset(product.imagePath) }}" alt="{{ product.name }}">
+            <img class="media-object" src="{{ image_path(product.imageName, 3) }}" alt="{{ product.name }}">
           </div>
           <div class="media-body">
             {{ product.description }}

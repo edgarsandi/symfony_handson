@@ -45,9 +45,9 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="image_path", type="string", length=255)
+     * @ORM\Column(name="image_name", type="string", length=255)
      */
-    private $imagePath;
+    private $imageName;
 
 
     /**
@@ -130,25 +130,25 @@ class Product
     }
 
     /**
-     * Set imagePath
+     * Set imageName
      *
-     * @param string $imagePath
+     * @param string $imageName
      * @return Product
      */
-    public function setImagePath($imagePath)
+    public function setImageName($imageName)
     {
-        $this->imagePath = $imagePath;
+        $this->imageName = $imageName;
 
         return $this;
     }
 
     /**
-     * Get imagePath
+     * Get imageName
      *
      * @return string
      */
-    public function getImagePath()
+    public function getImageName()
     {
-        return $this->imagePath;
+        return $this->imageName;
     }
 }
