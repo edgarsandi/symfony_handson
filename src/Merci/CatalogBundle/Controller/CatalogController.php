@@ -41,14 +41,9 @@ class CatalogController extends Controller
         $request = $this->getRequest();
         $find = $request->query->get('find');
 
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery('
-            SELECT p
-            FROM MerciCatalogBundle:Product p
-            WHERE p.name LIKE :find
-        ')->setParameter('find', '%'.$find.'%');
-
-        $products = $query->getResult();
+        $products = $this->getDoctrine()
+            ->getRepository('MerciCatalogBundle:Product')
+            ->searchByName($find);
 
         if (empty($products)) {
             $this->get('session')->getFlashBag()->add(
