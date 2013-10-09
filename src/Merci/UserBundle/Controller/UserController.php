@@ -4,6 +4,8 @@ namespace Merci\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use Merci\UserBundle\Form\UserType;
+use Merci\UserBundle\Entity\User;
 
 class UserController extends Controller
 {
@@ -29,6 +31,16 @@ class UserController extends Controller
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                 'error'         => $error,
             )
+        );
+    }
+
+    public function registerAction()
+    {
+        $user = new User();
+        $form = $this->createForm(new UserType(), $user);
+
+        return $this->render('MerciUserBundle:Default:register.html.twig',
+            array('form' => $form->createView())
         );
     }
 }
