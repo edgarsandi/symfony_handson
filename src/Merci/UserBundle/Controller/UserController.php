@@ -11,6 +11,10 @@ class UserController extends Controller
 {
     public function loginAction()
     {
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+            return $this->redirect($this->generateUrl('checkout'));
+        }
+
         $request = $this->getRequest();
         $session = $request->getSession();
 
@@ -36,8 +40,23 @@ class UserController extends Controller
 
     public function registerAction()
     {
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+            return $this->redirect($this->generateUrl('checkout'));
+        }
+
+        $request = $this->getRequest();
+
         $user = new User();
         $form = $this->createForm(new UserType(), $user);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('checkout'));
+        }
 
         return $this->render('MerciUserBundle:Default:register.html.twig',
             array('form' => $form->createView())
