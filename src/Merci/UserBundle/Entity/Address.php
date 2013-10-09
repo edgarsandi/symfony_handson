@@ -3,7 +3,7 @@
 namespace Merci\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Address
@@ -26,6 +26,13 @@ class Address
      * @var string
      *
      * @ORM\Column(name="street", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "255",
+     *      minMessage = "Your street must be at least {{ limit }} characters length",
+     *      maxMessage = "Your street cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $street;
 
@@ -33,6 +40,13 @@ class Address
      * @var integer
      *
      * @ORM\Column(name="number", type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "255",
+     *      minMessage = "Your number must be at least {{ limit }} characters length",
+     *      maxMessage = "Your number cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $number;
 
@@ -40,6 +54,13 @@ class Address
      * @var string
      *
      * @ORM\Column(name="postal_code", type="string", length=20)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "8",
+     *      max = "20",
+     *      minMessage = "Your postal code must be at least {{ limit }} characters length",
+     *      maxMessage = "Your postal code cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $postal_code;
 
@@ -47,6 +68,13 @@ class Address
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=100)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "8",
+     *      max = "20",
+     *      minMessage = "Your city must be at least {{ limit }} characters length",
+     *      maxMessage = "Your city cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $city;
 
@@ -54,18 +82,15 @@ class Address
      * @var string
      *
      * @ORM\Column(name="state", type="string", length=100)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "100",
+     *      minMessage = "Your state must be at least {{ limit }} characters length",
+     *      maxMessage = "Your state cannot be longer than {{ limit }} characters length"
+     * )
      */
     private $state;
-
-    /**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="address")
-     */
-    protected $users;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
 
     /**
      * Get id
@@ -224,7 +249,7 @@ class Address
     public function addUser(\Merci\UserBundle\Entity\User $users)
     {
         $this->users[] = $users;
-    
+
         return $this;
     }
 
@@ -241,7 +266,7 @@ class Address
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {

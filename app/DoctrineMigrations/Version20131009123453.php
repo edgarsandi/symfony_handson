@@ -8,19 +8,16 @@ use Doctrine\DBAL\Migrations\AbstractMigration,
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20131009084554 extends AbstractMigration
+class Version20131009123453 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
         
-        $this->addSql("ALTER TABLE Address DROP FOREIGN KEY FK_C2F3561DA76ED395");
-        $this->addSql("DROP INDEX IDX_C2F3561DA76ED395 ON Address");
-        $this->addSql("ALTER TABLE Address DROP user_id");
-        $this->addSql("ALTER TABLE User ADD address_id INT DEFAULT NULL");
+        $this->addSql("CREATE TABLE Address (id INT AUTO_INCREMENT NOT NULL, street VARCHAR(255) NOT NULL, number INT NOT NULL, postal_code VARCHAR(20) NOT NULL, city VARCHAR(100) NOT NULL, state VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE User (id INT AUTO_INCREMENT NOT NULL, address_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(100) NOT NULL, salt VARCHAR(32) NOT NULL, username VARCHAR(25) NOT NULL, is_active TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_2DA17977F85E0677 (username), INDEX IDX_2DA17977F5B7AF75 (address_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
         $this->addSql("ALTER TABLE User ADD CONSTRAINT FK_2DA17977F5B7AF75 FOREIGN KEY (address_id) REFERENCES Address (id)");
-        $this->addSql("CREATE INDEX IDX_2DA17977F5B7AF75 ON User (address_id)");
     }
 
     public function down(Schema $schema)
@@ -28,11 +25,8 @@ class Version20131009084554 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
         
-        $this->addSql("ALTER TABLE Address ADD user_id INT DEFAULT NULL");
-        $this->addSql("ALTER TABLE Address ADD CONSTRAINT FK_C2F3561DA76ED395 FOREIGN KEY (user_id) REFERENCES User (id)");
-        $this->addSql("CREATE INDEX IDX_C2F3561DA76ED395 ON Address (user_id)");
         $this->addSql("ALTER TABLE User DROP FOREIGN KEY FK_2DA17977F5B7AF75");
-        $this->addSql("DROP INDEX IDX_2DA17977F5B7AF75 ON User");
-        $this->addSql("ALTER TABLE User DROP address_id");
+        $this->addSql("DROP TABLE Address");
+        $this->addSql("DROP TABLE User");
     }
 }
