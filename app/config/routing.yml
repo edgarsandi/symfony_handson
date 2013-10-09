@@ -5,3 +5,11 @@ merci_catalog:
 merci_cart:
     resource: "@MerciCartBundle/Resources/config/routing.yml"
     prefix:   /cart
+
+merci_user:
+    resource: "@MerciUserBundle/Resources/config/routing.yml"
+    prefix:   /user
+
+merci_checkout:
+    resource: "@MerciCheckoutBundle/Resources/config/routing.yml"
+    prefix:   /checkout
